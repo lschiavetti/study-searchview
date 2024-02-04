@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StudySearchView</string>
+    <string name="search_hint">this is the hint\n</string>
 </resources>

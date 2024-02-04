@@ -1,3 +1,46 @@
 Working on examples from this page:
 
 https://developer.android.com/develop/ui/views/search/training/setup
+
+- SearchView -
+
+A SearchView is an Android component commonly used to perform text searches.
+It works similarly to an EditText, but with additional features.
+
+It's built as a menu component, so in order to implement it, the project
+needs a menu xml file with at least an item on it. The search menu item
+has to declare the following property in order to be functional:
+
+    app:actionViewClass="androidx.appcompat.widget.SearchView"
+
+On top of that, it's suggested to also use the collapseActionView as
+the showAsAction property. It's not mandatory, but it definitely improves
+the experience, since it gives the menu item the ability to expand
+and collapse by itself.
+
+The SearchView needs a searchable: a separate xml file for configuration
+purposes. It goes under /res/xml and needs at least a hint and a label
+(which should share the one used by Manifest's Application tag).
+
+Next, in order to let the system know how to build the SearchView properly,
+this searchable must be assigned to the corresponding activity in the
+manifest, by making use of meta-data tag. The Activity must also contain
+the Search Intent Filter so it works as expected.
+
+Now, it becomes possible to setup the SearchView on the Activity.
+This has to be done in onCreateOptionsMenu, after inflating the xml menu.
+After finding the search item, the searchable configuration must be
+retrieved and applied to it.
+
+After submitting the query, the activity specified will receive an
+new intent extra containing the query. Note that, the activity doesn't
+need to be the same as the one declaring the SearchView. For example,
+there could be one activity to perform the search, and another one
+to handle search results. And evidently, it's possible to receive
+the query on the same activity that performed that search, by using
+the onNewIntent method and applying the singleTop property to the
+Activity.
+
+Whenever the query needs to be handled differently (e.g. implementing an
+auto-submit after a few seconds), it's possible to override SearchView's
+onQueryTextListener methods in order to do that.
